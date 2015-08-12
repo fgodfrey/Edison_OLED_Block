@@ -1,13 +1,22 @@
-SparkFun Edison OLED Block
+Xadow Edison OLED Widget
 ===========================
 
-![SparkFun Edison OLED Block](https://cdn.sparkfun.com//assets/parts/1/0/0/3/6/13035-01.jpg)
+[* Xadow Edison OLED Widget *](http://www.seeedstudio.com/depot/Xadow-RGB-OLED-96x64-p-2125.html))
 
-[* SparkFun Edison OLED Block(DEV-13035)*](https://www.sparkfun.com/products/13035)
+This code was forked from the SparkFun Edison OLED block and is intended to get the Xadow OLED going on Ubilinux.
 
-Equip your Edison with a graphic display using the Edison OLED board! This board features a 0.66", 64x48 pixel monochrome OLED.
+The SKU at SeeedStudio for this block at the time it was purchased was 104040001.
 
-To add some control over your Edison and the OLED, this board also includes a small joystick and a pair of push-buttons. Use them to create a game, file navigator, or more!
+Status:
+Initial port to the Xadow RGB LED device.  This also chnages the "pong" game to
+be a clock with a QR code that represents the time.  The changes to the init code
+(ie the port from the 1306 to the 1331) came from Arduino code here:
+        https://github.com/Seeed-Studio/RGB_OLED_SSD1331
+
+Unfortunately, not everything is done here yet but this should get you started.
+Comments haven't always been modified to match the code.
+
+
 
 Repository Contents
 -------------------
@@ -18,7 +27,7 @@ Repository Contents
 License Information
 --------------------
 
-The hardware is released under [Creative Commons ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
-The code is beerware; if you see me (or any other SparkFun employee) at the local, and you've found our code helpful, please buy us a round!
+The SparkFun hardware is released under [Creative Commons ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
+The code is beerware; if you see me (or any SparkFun employee) at the local, and you've found our code helpful, please buy us a round!
 
 Distributed as-is; no warranty is given.
