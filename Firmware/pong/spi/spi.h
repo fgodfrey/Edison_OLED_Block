@@ -15,7 +15,7 @@ class spiPort
 		~spiPort();
     bool doIOwn(spiDevice *curiousDevice);
     void takeOwnership(spiDevice *bossyDevice);
-		void transferData(spi_ioc_transfer *xfer);
+		void transferData(spi_ioc_transfer *xfer, int ncmd=1);
 
 	private:
 		void configurePort();
@@ -35,7 +35,7 @@ class spiDevice
     spiDevice(){};
 		spiDevice(spiPort *port, \
 		           unsigned char spiMode = SPI_MODE_0, \
-							 long speed = 1000000, \
+							 long speed = 10000000, \
 							 bool lsbFirst = false, \
 							 gpio *csPin = NULL);
 		void transferData(unsigned char *outData, \

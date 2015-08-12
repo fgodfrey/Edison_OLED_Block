@@ -30,30 +30,31 @@ spiDevice::spiDevice(spiPort *port, \
     }
 }
 
+spi_ioc_transfer xfer[96*64*2];
+
 void spiDevice::transferData(unsigned char *dataOut, \
                               unsigned char *dataIn, \
                               unsigned int len,
-                              bool deselect)
-{
-	spi_ioc_transfer xfer;	
-	xfer.tx_buf =(unsigned long)dataOut;
-	xfer.rx_buf =(unsigned long)dataIn;
-	xfer.len = len;
-	xfer.speed_hz = _speed;
-	xfer.bits_per_word = 8;
-	if (deselect)
-	{
-		xfer.cs_change = 1;
+                              bool deselect) {
+	for (unsigned int i=0; i < len; i++) {
+		xfer[i].tx_buf =(unsigned long)(&dataOut[i]);
+		xfer[i].rx_buf =(unsigned long)NULL;
+		xfer[i].len = 1;
+		xfer[i].speed_hz = _speed;
+		xfer[i].bits_per_word = 8;
+		xfer[i].delay_usecs = 1;
+		if (deselect) {
+			xfer[i].cs_change = 1;
+		} else {
+			xfer[i].cs_change = 0;
+		}
+
 	}
-	else
-	{
-		xfer.cs_change = 0;
-	}
-	if (_port->doIOwn(this))
-	{
+
+	if (_port->doIOwn(this)) {
 		_port->takeOwnership(this);
 	}
-	_port->transferData(&xfer);
+	_port->transferData(xfer, len);
 }
 
 gpio* spiDevice::getCSPin()

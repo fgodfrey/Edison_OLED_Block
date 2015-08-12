@@ -20,6 +20,9 @@
 #include <unistd.h> // for usleep
 #include <stdlib.h> // Gives us atoi
 #include <stdio.h>
+extern "C" {
+	#include <qrencode.h>
+}
 
 using namespace std;
 
@@ -40,6 +43,7 @@ void cleanUp();
 // Define an edOLED object:
 edOLED oled;
 
+#if 0
 // Pin definitions:
 // All buttons have pull-up resistors on-board, so just declare
 // them as regular INPUT's
@@ -50,6 +54,7 @@ gpio BUTTON_RIGHT(45, INPUT);
 gpio BUTTON_SELECT(48, INPUT);
 gpio BUTTON_A(49, INPUT);
 gpio BUTTON_B(46, INPUT);
+#endif
 
 // Game Variables:
 int scoreToWin = 10;
@@ -84,17 +89,51 @@ enum {
 };
 int playMode = SINGLE_PLAYER;
 
-int main(int argc, char * argv[])
-{
-	if (argc == 2)
-	{
-		scoreToWin = atoi(argv[1]);
-	}
-	printf("Playing to %d\r\n", scoreToWin);
+int main(int argc, char * argv[]) {
+	char buffer[32];
+	QRcode *code;
 
 	setupOLED();
-	startScreen();
+	//startScreen();
+	while(1) {
+		time_t t = time(NULL);
+		struct tm tm = *localtime(&t);
 
+		oled.clear(PAGE);
+
+		sprintf(buffer, "%04d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+		code = QRcode_encodeString(buffer, 1, QR_ECLEVEL_H, QR_MODE_8, 1);
+		if (!code) {
+			cout << "DIDN'T ENCODE!!!";
+			perror("Didn't encode");
+			exit(1);
+		}
+		for (int y = 0; y < code->width; y++) {
+			for (int x = 0; x < code->width; x++) {
+				int c = code->data[y * code->width + x];
+
+				if (c & 1) {
+					oled.pixel(2*x, 2*y, WHITE, NORM);
+					oled.pixel(2*x+1, 2*y, WHITE, NORM);
+					oled.pixel(2*x, 2*y+1, WHITE, NORM);
+					oled.pixel(2*x+1, 2*y+1, WHITE, NORM);
+				} else {
+					oled.pixel(2*x, 2*y, BLACK, NORM);
+					oled.pixel(2*x+1, 2*y, BLACK, NORM);
+					oled.pixel(2*x, 2*y+1, BLACK, NORM);
+					oled.pixel(2*x+1, 2*y+1, BLACK, NORM);
+				}
+			}
+		}
+#if 1
+		oled.setCursor(60,0);
+		oled.printVert(buffer);
+#endif
+		oled.display();
+		sleep(5);
+	}
+
+#if 0
 	while (1)
 	{
 		updatePaddlePositions();
@@ -107,6 +146,7 @@ int main(int argc, char * argv[])
 			return 0;
 		}
 	}
+#endif
 }
 
 void setupOLED()
@@ -141,6 +181,7 @@ void startScreen()
 	// Call display to actually draw it on the OLED:
 	oled.display();
 
+#if 0
 	// Wait for either button A or B to be pressed:
 	while ((BUTTON_A.pinRead() == HIGH) && (BUTTON_B.pinRead() == HIGH))
 		;
@@ -150,8 +191,10 @@ void startScreen()
 	// If button B is pressed, play mutli-player
 	else if (BUTTON_B.pinRead() == LOW)
 		playMode = MULTI_PLAYER;
+#endif
 }
 
+#if 0
 // Update the positions of the paddles:
 void updatePaddlePositions()
 {
@@ -279,6 +322,7 @@ void moveBall()
 		}
 	}
 }
+#endif
 
 // Draw the paddles, ball and score:
 void drawGame()

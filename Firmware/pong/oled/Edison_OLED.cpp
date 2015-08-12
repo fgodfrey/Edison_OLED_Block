@@ -54,6 +54,7 @@ functions.  All drawing function will first be drawn on this page buffer, only
 upon calling display() function will transfer the page buffer to the actual LCD
 controller's memory.
 */
+#if 0
 static unsigned char screenmemory [] = {
 	/* LCD Memory organised in 64 horizontal pixel and 6 rows of unsigned char
 	 B  B .............B  -----
@@ -78,11 +79,15 @@ static unsigned char screenmemory [] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0xF8, 0xFC, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF,
 	0xFF, 0xFF, 0xFF, 0x0F, 0x07, 0x07, 0x06, 0x06, 0x00, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	
 	// ROW1, unsigned char64 to unsigned char127
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x81, 0x07, 0x0F, 0x3F, 0x3F, 0xFF, 0xFF, 0xFF,
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0xFE, 0xFC, 0xFC, 0xFC, 0xFE, 0xFF, 0xFF, 0xFF, 0xFC, 0xF8, 0xE0,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	
 	// ROW2, unsigned char128 to unsigned char191
@@ -90,11 +95,15 @@ static unsigned char screenmemory [] = {
 	0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF1, 0xE0, 0xE0, 0xE0, 0xE0, 0xE0, 0xF0, 0xFD, 0xFF,
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 
 	// ROW3, unsigned char192 to unsigned char255
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF,
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x3F, 0x1F, 0x07, 0x01,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 
 	// ROW4, unsigned char256 to unsigned char319
@@ -102,18 +111,41 @@ static unsigned char screenmemory [] = {
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x3F, 0x1F, 0x1F, 0x0F, 0x0F, 0x0F, 0x0F,
 	0x0F, 0x0F, 0x0F, 0x0F, 0x07, 0x07, 0x07, 0x03, 0x03, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	
 	// ROW5, unsigned char320 to unsigned char383
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF,
 	0x7F, 0x3F, 0x1F, 0x0F, 0x07, 0x03, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+
+	// ROW6, unsigned char320 to unsigned char383
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+
+	// ROW7, unsigned char320 to unsigned char383
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
+#endif
+static unsigned char screenmemory[96*64*2];
+
 
 // Pin definitions:
 gpio CS_PIN(111, OUTPUT, HIGH);
 gpio RST_PIN(15, OUTPUT, HIGH);
-gpio DC_PIN(14, OUTPUT, HIGH);
+gpio DC_PIN(27, OUTPUT, HIGH);
 gpio SCLK_PIN(109, SPI, HIGH);
 gpio MOSI_PIN(115, SPI, HIGH);
 
@@ -150,41 +182,59 @@ void edOLED::begin()
 	RST_PIN.pinWrite(HIGH);	//digitalWrite(rstPin, HIGH);
 
 	// Init sequence for 64x48 OLED module
-	command(DISPLAYOFF);			// 0xAE
+	command(CMD_DISPLAY_OFF);			// 0xAE
 
-	command(SETDISPLAYCLOCKDIV);	// 0xD5
-	command(0x80);					// the suggested ratio 0x80
+	command(CMD_SET_CONTRAST_A);
+	command(0x91);
+	command(CMD_SET_CONTRAST_B);
+	command(0x50);
+	command(CMD_SET_CONTRAST_C);
+	command(0x7d);
 
-	command(SETMULTIPLEX);			// 0xA8
-	command(0x2F);
+	command(CMD_MASTER_CURRENT_CONTROL);
+	command(0x06);
 
-	command(SETDISPLAYOFFSET);		// 0xD3
-	command(0x0);					// no offset
+	command(CMD_SET_PRECHARGE_SPEED_A);
+	command(0x64);
+	command(CMD_SET_PRECHARGE_SPEED_B);
+	command(0x78);
+	command(CMD_SET_PRECHARGE_SPEED_C);
+	command(0x64);
 
-	command(SETSTARTLINE | 0x0);	// line #0
+	command(CMD_SET_REMAP);
+	command(0x72);
 
-	command(CHARGEPUMP);			// enable charge pump
-	command(0x14);
+	command(CMD_SET_DISPLAY_START_LINE);
+	command(0x0);
+	command(CMD_SET_DISPLAY_OFFSET);
+	command(0x0);
 
-	command(NORMALDISPLAY);			// 0xA6
-	command(DISPLAYALLONRESUME);	// 0xA4
+	command(CMD_NORMAL_DISPLAY);
 
-	command(SEGREMAP | 0x1);
-	command(COMSCANDEC);
+	command(CMD_SET_MULTIPLEX_RATIO);
+	command(0x3f);
 
-	command(SETCOMPINS);			// 0xDA
-	command(0x12);
+	command(CMD_SET_MASTER_CONFIGURE);
+	command(0x8e);
 
-	command(SETCONTRAST);			// 0x81
-	command(0x8F);
+	command(CMD_POWER_SAVE_MODE);
+	command(0x00);
 
-	command(SETPRECHARGE);			// 0xd9
-	command(0xF1);
-	
-	command(SETVCOMDESELECT);			// 0xDB
-	command(0x40);
+	command(CMD_PHASE_PERIOD_ADJUSTMENT);
+	command(0x31);
 
-	command(DISPLAYON);				//--turn on oled panel
+	command(CMD_DISPLAY_CLOCK_DIV);
+	command(0xf0);
+
+	command(CMD_SET_PRECHARGE_VOLTAGE);
+	command(0x3a);
+
+	command(CMD_SET_V_VOLTAGE);
+	command(0x3e);
+
+	command(CMD_DEACTIVE_SCROLLING);
+	command(CMD_NORMAL_BRIGHTNESS_DISPLAY_ON);
+
 	clear(ALL);						// Erase hardware memory inside the OLED
 }
 
@@ -212,10 +262,13 @@ void edOLED::data(unsigned char c)
 
     Send page address command and address to the SSD1306 OLED controller.
 */
-void edOLED::setPageAddress(unsigned char add)
+void edOLED::setRowAddress(unsigned char add)
 {
-	add=0xb0|add;
+	if (add > 63) add = 63;
+
+	command(CMD_SET_ROW_ADDRESS);
 	command(add);
+	command(63);
 	return;
 }
 
@@ -225,8 +278,11 @@ void edOLED::setPageAddress(unsigned char add)
 */
 void edOLED::setColumnAddress(unsigned char add)
 {
-	command((0x10|(add>>4))+0x02);
-	command((0x0f&add));
+	if (add > 95) add = 95;
+
+	command(CMD_SET_COLUMN_ADDRESS);
+	command(add);
+	command(95);
 	return;
 }
 
@@ -238,21 +294,20 @@ void edOLED::setColumnAddress(unsigned char add)
 void edOLED::clear(unsigned char mode)
 {
 	//	unsigned char page=6, col=0x40;
-	if (mode==ALL)
-	{
-		for (int i=0;i<8; i++)
-		{
-			setPageAddress(i);
-			setColumnAddress(0);
-			for (int j=0; j<0x80; j++)
-			{
-				data(0);
-			}
+	if (mode==ALL) {
+		setRowAddress(0);
+		setColumnAddress(0);
+		memset(screenmemory, 0, sizeof(screenmemory));
+		spiTransferBulk(screenmemory, sizeof(screenmemory), HIGH);
+#if 0
+		for (int i=0;i<96*64; i++) {
+			data(0);
+			data(0);
 		}
+#endif
 	}
-	else
-	{
-		memset(screenmemory,0,384);			// (64 x 48) / 8 = 384
+	else {
+		memset(screenmemory,0,sizeof(screenmemory));			// (64 x 48) / 8 = 384
 	}
 }
 
@@ -264,7 +319,9 @@ void edOLED::clear(unsigned char mode)
 */
 void edOLED::clear(unsigned char mode, unsigned char c)
 {
-	//unsigned char page=6, col=0x40;
+	clear(mode);
+#if 0
+	//unsigned char page=6, col=96;
 	if (mode==ALL)
 	{
 		for (int i=0;i<8; i++)
@@ -279,9 +336,10 @@ void edOLED::clear(unsigned char mode, unsigned char c)
 	}
 	else
 	{
-		memset(screenmemory,c,384);			// (64 x 48) / 8 = 384
+		memset(screenmemory,c,96*64*2);			// (64 x 48) / 8 = 384
 		display();
 	}	
+#endif
 }
 
 /** \brief Invert display.
@@ -292,9 +350,9 @@ void edOLED::clear(unsigned char mode, unsigned char c)
 void edOLED::invert(unsigned char inv)
 {
 	if (inv)
-		command(INVERTDISPLAY);
+		command(CMD_INVERSE_DISPLAY);
 	else
-		command(NORMALDISPLAY);
+		command(CMD_NORMAL_DISPLAY);
 }
 
 /** \brief Set contrast.
@@ -303,7 +361,11 @@ void edOLED::invert(unsigned char inv)
 */
 void edOLED::contrast(unsigned char contrast)
 {
-	command(SETCONTRAST);			// 0x81
+	command(CMD_SET_CONTRAST_A);			// 0x81
+	command(contrast);
+	command(CMD_SET_CONTRAST_B);			// 0x81
+	command(contrast);
+	command(CMD_SET_CONTRAST_C);			// 0x81
 	command(contrast);
 }
 
@@ -313,22 +375,60 @@ void edOLED::contrast(unsigned char contrast)
 */
 void edOLED::display(void)
 {
-	unsigned char i, j;
+	unsigned int i, j, k;
 	
-	for (i=0; i<6; i++)
-	{
-		setPageAddress(i);
-		setColumnAddress(0);
-		for (j=0;j<0x40;j++)
-		{
-			data(screenmemory[i*0x40+j]);
+	setColumnAddress(0);
+	setRowAddress(0);
+
+#if 0
+	for (i=0; i<8; i++) {
+		for (k=1;k<256;k = k << 1) {
+			for (j = 0; j < 96; j++) {
+				int color;
+	//			setColumnAddress(j);
+	//			setRowAddress(i*8 + k);
+				if (screenmemory[i*96+j] & k) {
+					color = 0xff;
+				} else {
+					color = 0;
+				}
+				data(color);
+				data(color);
+			}
 		}
 	}
+#endif
+	spiTransferBulk(screenmemory, sizeof(screenmemory), HIGH);
 }
 
 /** \brief write a character to the display
 
 */
+unsigned char edOLED::writeVert(unsigned char c)
+{
+	if (c == '\n')
+	{
+		cursorX += fontHeight;
+		cursorY  = 0;
+	}
+	else if (c == '\r')
+	{
+		// skip
+	}
+	else
+	{
+		drawCharVert(cursorX, cursorY, c, foreColor, drawMode);
+		cursorY += fontWidth+1;
+		if ((cursorY > (LCDHEIGHT - fontWidth)))
+		{
+			cursorX += fontHeight;
+			cursorY = 0;
+		}
+	}
+
+	return 1;
+}
+
 unsigned char edOLED::write(unsigned char c)
 {
 	if (c == '\n')
@@ -355,6 +455,16 @@ unsigned char edOLED::write(unsigned char c)
 }
 
 
+void edOLED::printVert(const char * c)
+{
+	int len = strlen(c);
+
+	for (int i=0; i<len; i++)
+	{
+		writeVert(c[i]);
+	}
+}
+
 void edOLED::print(const char * c)
 {
 	int len = strlen(c);
@@ -370,6 +480,13 @@ void edOLED::print(int d)
 	char temp[24];
 	sprintf(temp, "%d", d);
 	print(temp);
+}
+
+void edOLED::printVert(int d)
+{
+	char temp[24];
+	sprintf(temp, "%d", d);
+	printVert(temp);
 }
 
 /** \brief Set cursor position.
@@ -400,17 +517,21 @@ void edOLED::pixel(unsigned char x, unsigned char y, unsigned char color, unsign
 	if ((x<0) ||  (x>=LCDWIDTH) || (y<0) || (y>=LCDHEIGHT))
 		return;
 
-	if (mode==XOR)
-	{
+	if (mode==XOR) {
 		if (color==WHITE)
-			screenmemory[x+ (y/8)*LCDWIDTH] ^= (1<<(y%8));
-	}
-	else
-	{
-		if (color==WHITE)
-			screenmemory[x+ (y/8)*LCDWIDTH] |= (1<<(y%8));
-		else
-			screenmemory[x+ (y/8)*LCDWIDTH] &= ~(1<<(y%8));
+			//screenmemory[x+ (y/8)*LCDWIDTH] ^= (1<<(y%8));
+			screenmemory[(x + y*96)*2] ^= 0xff;
+			screenmemory[(x + y*96)*2 + 1] ^= 0xff;
+	} else {
+		if (color==WHITE) {
+			//screenmemory[x+ (y/8)*LCDWIDTH] |= (1<<(y%8));
+			screenmemory[(x + y*96)*2] = 0xff;
+			screenmemory[(x + y*96)*2 + 1] = 0xff;
+		} else {
+			//screenmemory[x+ (y/8)*LCDWIDTH] &= ~(1<<(y%8));
+			screenmemory[(x + y*96)*2] = 0x00;
+			screenmemory[(x + y*96)*2 + 1] = 0x00;
+		}
 	}
 }
 
@@ -781,9 +902,92 @@ void edOLED::setDrawMode(unsigned char mode)
 
     Draw character c using current color and current draw mode at x,y.
 */
+void  edOLED::drawCharVert(unsigned char x, unsigned char y, unsigned char c)
+{
+	drawCharVert(x,y,c,foreColor,drawMode);
+}
+
+/** \brief Draw character.
+
+    Draw character c using current color and current draw mode at x,y.
+*/
 void  edOLED::drawChar(unsigned char x, unsigned char y, unsigned char c)
 {
 	drawChar(x,y,c,foreColor,drawMode);
+}
+
+/** \brief Draw character with color and mode.
+
+    Draw character c using color and draw mode at x,y.
+*/
+void  edOLED::drawCharVert(unsigned char x, unsigned char y, unsigned char c, unsigned char color, unsigned char mode)
+{
+	unsigned char rowsToDraw,row, tempC;
+	unsigned char i,j,temp;
+	unsigned int charPerBitmapRow,charColPositionOnBitmap,charRowPositionOnBitmap,charBitmapStartPosition;
+
+	if ((c<fontStartChar) || (c>(fontStartChar+fontTotalChar-1)))		// no bitmap for the required c
+	return;
+
+	tempC=c-fontStartChar;
+
+	// each row (in datasheet is call page) is 8 bits high, 16 bit high character will have 2 rows to be drawn
+	rowsToDraw=fontHeight/8;	// 8 is LCD's page size, see SSD1306 datasheet
+	if (rowsToDraw<=1) rowsToDraw=1;
+
+	// the following draw function can draw anywhere on the screen, but SLOW pixel by pixel draw
+	if (rowsToDraw==1)
+	{
+		for  (i=0;i<fontWidth+1;i++)
+		{
+			if (i==fontWidth) // this is done in a weird way because for 5x7 font, there is no margin, this code add a margin after col 5
+				temp=0;
+			else
+				temp=pgm_read_byte(fontsPointer[fontType]+FONTHEADERSIZE+(tempC*fontWidth)+i);
+
+			for (j=0;j<8;j++)
+			{			// 8 is the LCD's page height (see datasheet for explanation)
+				if (temp & 0x1)
+				{
+					pixel(x+(8-j), y+i, color,mode);
+				}
+				else
+				{
+					pixel(x+(8-j), y+i, !color,mode);
+				}
+				
+				temp >>=1;
+			}
+		}
+		return;
+	}
+
+	// font height over 8 bit
+	// take character "0" ASCII 48 as example
+	charPerBitmapRow=fontMapWidth/fontWidth;  // 256/8 =32 char per row
+	charColPositionOnBitmap=tempC % charPerBitmapRow;  // =16
+	charRowPositionOnBitmap=int(tempC/charPerBitmapRow); // =1
+	charBitmapStartPosition=(charRowPositionOnBitmap * fontMapWidth * (fontHeight/8)) + (charColPositionOnBitmap * fontWidth) ;
+
+	// each row on LCD is 8 bit height (see datasheet for explanation)
+	for(row=0;row<rowsToDraw;row++)
+	{
+		for (i=0; i<fontWidth;i++)
+		{
+			temp=pgm_read_byte(fontsPointer[fontType]+FONTHEADERSIZE+(charBitmapStartPosition+i+(row*fontMapWidth)));
+			for (j=0;j<8;j++)
+			{			// 8 is the LCD's page height (see datasheet for explanation)
+				if (temp & 0x1)
+				{
+					pixel(x+(rowsToDraw*8-j-(row*8)), y+i, color, mode);
+				} else {
+					pixel(x+(rowsToDraw*8-j-(row*8)), y+i, !color, mode);
+				}
+				temp >>=1;
+			}
+		}
+	}
+
 }
 
 /** \brief Draw character with color and mode.
@@ -868,7 +1072,7 @@ void  edOLED::drawChar(unsigned char x, unsigned char y, unsigned char c, unsign
 */
 void edOLED::scrollStop(void)
 {
-	command(DEACTIVATESCROLL);
+	command(CMD_DEACTIVE_SCROLLING);
 }
 
 /** \brief Right scrolling.
@@ -877,6 +1081,7 @@ void edOLED::scrollStop(void)
 */
 void edOLED::scrollRight(unsigned char start, unsigned char stop)
 {
+# if 0
 	if (stop<start)		// stop must be larger or equal to start
 		return;
 	scrollStop();		// need to disable scrolling before starting to avoid memory corrupt
@@ -888,6 +1093,10 @@ void edOLED::scrollRight(unsigned char start, unsigned char stop)
 	command(0x00);
 	command(0xFF);
 	command(ACTIVATESCROLL);
+#else
+	printf("scrollRight:  NOT IMPLEMENTED\n");
+	exit(1);
+#endif
 }
 	
 /** \brief Vertical flip.
@@ -896,6 +1105,7 @@ void edOLED::scrollRight(unsigned char start, unsigned char stop)
 */
 void edOLED::flipVertical(unsigned char flip)
 {
+#if 0
 	if (flip)
 	{
 		command(COMSCANINC);
@@ -904,6 +1114,7 @@ void edOLED::flipVertical(unsigned char flip)
 	{
 		command(COMSCANDEC);
 	}
+#endif
 }
 
 /** \brief Horizontal flip.
@@ -912,6 +1123,7 @@ void edOLED::flipVertical(unsigned char flip)
 */	
 void edOLED::flipHorizontal(unsigned char flip)
 {
+#if 0
 	if (flip)
 	{
 		command(SEGREMAP | 0x0);
@@ -920,6 +1132,7 @@ void edOLED::flipHorizontal(unsigned char flip)
 	{
 		command(SEGREMAP | 0x1);
 	}
+#endif
 }
 
 void edOLED::spiSetup()
@@ -933,8 +1146,19 @@ void edOLED::spiSetup()
 	*/
 }
 
-void edOLED::spiTransfer(unsigned char data)
-{
+void edOLED::spiTransferBulk(unsigned char *d, int len, PIN_VALUE dc_level) {
+#if 0
+        DC_PIN.pinWrite(dc_level);  // DC HIGH
+
+	oledSPI.transferData(d, NULL, len, true);
+#else
+	for (int i = 0; i < len; i++)
+		data(d[i]);
+#endif
+
+}
+
+void edOLED::spiTransfer(unsigned char data) {
 	// SPI library method:
 	//CS_PIN.pinWrite(LOW);	//digitalWrite(csPin, LOW);
 	oledSPI.transferData(&data);	//, NULL, 1, true);
@@ -945,8 +1169,7 @@ void edOLED::spiTransfer(unsigned char data)
 	CS_PIN.pinWrite(LOW);	//digitalWrite(csPin, LOW);
 	SCLK_PIN.pinWrite(HIGH);	//digitalWrite(SCK, HIGH);
 
-	for (int i=7; i>=0; i--)
-	{
+	for (int i=7; i>=0; i--) {
 		if (data & (1<<i))
 			MOSI_PIN.pinWrite(HIGH);	//digitalWrite(MOSI, HIGH);
 		else

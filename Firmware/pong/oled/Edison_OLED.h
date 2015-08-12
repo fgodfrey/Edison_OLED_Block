@@ -26,13 +26,16 @@
 #ifndef EDISON_OLED_H
 #define EDISON_OLED_H
 
+#include "../gpio/gpio.h"
+
+
 #define swap(a, b) { unsigned char t = a; a = b; b = t; }
 
 #define BLACK 0
 #define WHITE 1
 
-#define LCDWIDTH			64
-#define LCDHEIGHT			48
+#define LCDWIDTH			96
+#define LCDHEIGHT			64
 #define FONTHEADERSIZE		6
 
 #define NORM				0
@@ -41,38 +44,47 @@
 #define PAGE				0
 #define ALL					1
 
-#define SETCONTRAST 		0x81
-#define DISPLAYALLONRESUME 	0xA4
-#define DISPLAYALLON 		0xA5
-#define NORMALDISPLAY 		0xA6
-#define INVERTDISPLAY 		0xA7
-#define DISPLAYOFF 			0xAE
-#define DISPLAYON 			0xAF
-#define SETDISPLAYOFFSET 	0xD3
-#define SETCOMPINS 			0xDA
-#define SETVCOMDESELECT		0xDB
-#define SETDISPLAYCLOCKDIV 	0xD5
-#define SETPRECHARGE 		0xD9
-#define SETMULTIPLEX 		0xA8
-#define SETLOWCOLUMN 		0x00
-#define SETHIGHCOLUMN 		0x10
-#define SETSTARTLINE 		0x40
-#define MEMORYMODE 			0x20
-#define COMSCANINC 			0xC0
-#define COMSCANDEC 			0xC8
-#define SEGREMAP 			0xA0
-#define CHARGEPUMP 			0x8D
-#define EXTERNALVCC 		0x01
-#define SWITCHCAPVCC 		0x02
+#define CMD_DRAW_LINE                       0x21
+#define CMD_DRAW_RECTANGLE                  0x22
+#define CMD_COPY_WINDOW                     0x23
+#define CMD_DIM_WINDOW                      0x24
+#define CMD_CLEAR_WINDOW                    0x25
+#define CMD_FILL_WINDOW                     0x26
+    #define DISABLE_FILL    0x00
+    #define ENABLE_FILL     0x01
+#define CMD_CONTINUOUS_SCROLLING_SETUP      0x27
+#define CMD_DEACTIVE_SCROLLING              0x2E
+#define CMD_ACTIVE_SCROLLING                0x2F
 
-// Scroll
-#define ACTIVATESCROLL 					0x2F
-#define DEACTIVATESCROLL 				0x2E
-#define SETVERTICALSCROLLAREA 			0xA3
-#define RIGHTHORIZONTALSCROLL 			0x26
-#define LEFT_HORIZONTALSCROLL 			0x27
-#define VERTICALRIGHTHORIZONTALSCROLL	0x29
-#define VERTICALLEFTHORIZONTALSCROLL	0x2A
+#define CMD_SET_COLUMN_ADDRESS              0x15
+#define CMD_SET_ROW_ADDRESS                 0x75
+#define CMD_SET_CONTRAST_A                  0x81
+#define CMD_SET_CONTRAST_B                  0x82
+#define CMD_SET_CONTRAST_C                  0x83
+#define CMD_MASTER_CURRENT_CONTROL          0x87
+#define CMD_SET_PRECHARGE_SPEED_A           0x8A
+#define CMD_SET_PRECHARGE_SPEED_B           0x8B
+#define CMD_SET_PRECHARGE_SPEED_C           0x8C
+#define CMD_SET_REMAP                       0xA0
+#define CMD_SET_DISPLAY_START_LINE          0xA1
+#define CMD_SET_DISPLAY_OFFSET              0xA2
+#define CMD_NORMAL_DISPLAY                  0xA4
+#define CMD_ENTIRE_DISPLAY_ON               0xA5
+#define CMD_ENTIRE_DISPLAY_OFF              0xA6
+#define CMD_INVERSE_DISPLAY                 0xA7
+#define CMD_SET_MULTIPLEX_RATIO             0xA8
+#define CMD_DIM_MODE_SETTING                0xAB
+#define CMD_SET_MASTER_CONFIGURE            0xAD
+#define CMD_DIM_MODE_DISPLAY_ON             0xAC
+#define CMD_DISPLAY_OFF                     0xAE
+#define CMD_NORMAL_BRIGHTNESS_DISPLAY_ON    0xAF
+#define CMD_POWER_SAVE_MODE                 0xB0
+#define CMD_PHASE_PERIOD_ADJUSTMENT         0xB1
+#define CMD_DISPLAY_CLOCK_DIV               0xB3
+#define CMD_SET_GRAy_SCALE_TABLE            0xB8
+#define CMD_ENABLE_LINEAR_GRAY_SCALE_TABLE  0xB9
+#define CMD_SET_PRECHARGE_VOLTAGE           0xBB
+#define CMD_SET_V_VOLTAGE                   0xBE
 
 typedef enum CMD {
 	CMD_CLEAR,			//0
@@ -103,14 +115,17 @@ public:
 	void begin(void);
 
 	unsigned char write(unsigned char);
+	unsigned char writeVert(unsigned char);
 	void print(const char * c);
 	void print(int d);
+	void printVert(const char * c);
+	void printVert(int d);
 
 	// RAW LCD functions
 	void command(unsigned char c);
 	void data(unsigned char c);
 	void setColumnAddress(unsigned char add);
-	void setPageAddress(unsigned char add);
+	void setRowAddress(unsigned char add);
 	
 	// LCD Draw functions
 	void clear(unsigned char mode);
@@ -137,6 +152,8 @@ public:
 	void circleFill(unsigned char x0, unsigned char y0, unsigned char radius, unsigned char color, unsigned char mode);
 	void drawChar(unsigned char x, unsigned char y, unsigned char c);
 	void drawChar(unsigned char x, unsigned char y, unsigned char c, unsigned char color, unsigned char mode);
+	void drawCharVert(unsigned char x, unsigned char y, unsigned char c);
+	void drawCharVert(unsigned char x, unsigned char y, unsigned char c, unsigned char color, unsigned char mode);
 	void drawBitmap(void);
 	unsigned char getLCDWidth(void);
 	unsigned char getLCDHeight(void);
@@ -170,6 +187,7 @@ private:
 					  
 	// Communication
 	void spiTransfer(unsigned char data);
+	void spiTransferBulk(unsigned char *data, int len, PIN_VALUE dc_level);
 	void spiSetup();
 };
 #endif

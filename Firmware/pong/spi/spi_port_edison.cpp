@@ -56,9 +56,9 @@ void spiPort::configurePort()
 	ioctl(_spiFile, SPI_IOC_WR_MODE, &temp);
 }
 
-void spiPort::transferData(spi_ioc_transfer *xfer)
+void spiPort::transferData(spi_ioc_transfer *xfer, int ncmd)
 {
-	ioctl(_spiFile, SPI_IOC_MESSAGE(1), xfer);
+	ioctl(_spiFile, SPI_IOC_MESSAGE(ncmd), xfer);
 }
 
 bool spiPort::doIOwn(spiDevice *curiousDevice)
