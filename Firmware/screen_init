@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -x
+
+# 27:  Set to Mode0 and 0 to change from I2C to Display Data/Command
+# 240-243:  Set muxes to 1 to select SPI
+# 257-259, 261:  Set to 1 to set level shifter direction
+
+PIN_EXPORTS="27 240 241 242 243 257 258 259 261"
+PIN_SET_OUT="27 240 241 242 243 257 258 259 261"
+PIN_SET_0="27"
+PIN_SET_1="240 241 242 243 257 258 259 261"
+PIN_SET_MODE0="27"
+
+
+for i in $PIN_EXPORTS ; do
+	echo $i >> /sys/class/gpio/export
+done
+
+for i in $PIN_SET_OUT; do
+	echo out >> /sys/class/gpio/gpio$i/direction
+done
+
+for i in $PIN_SET_MODE0; do
+	echo mode0 >> /sys/kernel/debug/gpio_debug/gpio$i/current_pinmux
+done
+
+
+for i in $PIN_SET_0; do
+	echo 0 >> /sys/class/gpio/gpio$i/value
+done
+
+for i in $PIN_SET_1; do
+	echo 1 >> /sys/class/gpio/gpio$i/value
+done
